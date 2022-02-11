@@ -1,5 +1,5 @@
 (function() {
-    self.Board = function(width, height) {
+    self.Board = function(width, height) { //ancho y alto de pizarrón
         this.width = width;
         this.height = height;
         this.playing = false;
@@ -9,7 +9,7 @@
         this.playing = false;
     }
 
-    self.Board.prototype = {
+    self.Board.prototype = { // método getter para los elementos de Board
         get elements() {
             var elements = this.bars.map(function(bar) {
                 return bar;
@@ -28,7 +28,7 @@
         this.speed_y = 0;
         this.speed_x = 3;
         this.board = board;
-        this.direction = 1;
+        this.direction = 1; //1 = izquierda, -1 = derecha
         this.bounce_angle = 0;
         this.max_bounce_angle = Math.PI / 12;
         this.speed = 3;
@@ -52,7 +52,9 @@
 
         },
 
-        collision: function(bar) {
+
+        collision: function(bar) { //Reacciona a la colisiona con una barra que recibe como parametro  
+
             var relative_intersect_y = (bar.y + (bar.height / 2)) - this.y;
 
             var normalized_intersect_y = relative_intersect_y / (bar.height / 2);
@@ -70,7 +72,11 @@
                 this.speed += 1;
             }
 
-        }
+        },
+
+        wall: function() {
+            this.speed_y = -this.speed_y;
+        },
 
     }
 
@@ -131,11 +137,19 @@
             };
 
         },
+        check_wall: function() { //Metodo que comprueba que la bola tocó un borde superior o inferior
+            var ball = this.board.ball;
+            if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
+                ball.wall();
+            }
+
+        },
         play: function() {
             if (this.board.playing) {
                 this.clean();
                 this.draw();
                 this.check_collisions();
+                this.check_wall();
                 this.board.ball.move();
             }
         }
@@ -187,11 +201,11 @@
 })();
 
 var board = new Board(800, 400);
-var bar = new Bar(20, 100, 40, 100, board);
-var bar_2 = new Bar(735, 100, 40, 100, board);
+var bar = new Bar(-30, 150, 60, 100, board);
+var bar_2 = new Bar(770, 150, 60, 100, board);
 var canvas = document.getElementById('canvas');
 var board_view = new BoardView(canvas, board);
-var ball = new Ball(350, 100, 10, board);
+var ball = new Ball(board.width / 2, board.height / 2, 10, board);
 
 document.addEventListener("keydown", function(ev) {
     console.log(ev.keyCode);
