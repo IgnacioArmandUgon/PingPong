@@ -1,5 +1,5 @@
-(function () {
-    self.Board = function (width, height) {
+(function() {
+    self.Board = function(width, height) {
         this.width = width;
         this.height = height;
         this.playing = false;
@@ -9,9 +9,9 @@
         this.playing = false;
     }
 
-    self.Board.prototype = { // método que retorna las barras y pelotas que insiden al tablero
+    self.Board.prototype = {
         get elements() {
-            var elements = this.bars.map(function (bar) {
+            var elements = this.bars.map(function(bar) {
                 return bar;
             });
             elements.push(this.ball);
@@ -20,8 +20,8 @@
     }
 })();
 
-(function () {
-    self.Ball = function (x, y, radius, board) {
+(function() {
+    self.Ball = function(x, y, radius, board) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -38,7 +38,7 @@
     }
 
     self.Ball.prototype = {
-        move: function () {
+        move: function() {
             this.x += (this.speed_x * this.direction);
             this.y += (this.speed_y);
 
@@ -52,8 +52,7 @@
 
         },
 
-        collision: function (bar) {
-            //Reacciona a la colisiona con una barra que recibe como parametro  
+        collision: function(bar) {
             var relative_intersect_y = (bar.y + (bar.height / 2)) - this.y;
 
             var normalized_intersect_y = relative_intersect_y / (bar.height / 2);
@@ -66,8 +65,7 @@
             if (this.x > (this.board.width / 2)) {
                 this.direction = -1;
                 this.speed += 1;
-            }
-            else {
+            } else {
                 this.direction = 1;
                 this.speed += 1;
             }
@@ -78,8 +76,8 @@
 
 })();
 
-(function () {
-    self.Bar = function (x, y, width, height, board) {
+(function() {
+    self.Bar = function(x, y, width, height, board) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -91,20 +89,20 @@
     }
 
     self.Bar.prototype = {
-        down: function () {
+        down: function() {
             this.y += this.speed;
 
         },
-        up: function () {
+        up: function() {
             this.y -= this.speed;
         },
-        toString: function () {
+        toString: function() {
             return "x: " + this.x + "y: " + this.y;
         }
     }
 })();
-(function () {
-    self.BoardView = function (canvas, board) {
+(function() {
+    self.BoardView = function(canvas, board) {
         this.canvas = canvas;
         this.canvas.width = board.width;
         this.canvas.height = board.height;
@@ -113,17 +111,17 @@
     }
 
     self.BoardView.prototype = {
-        clean: function () {
+        clean: function() {
             this.cxt.clearRect(0, 0, this.board.width, this.board.height);
         },
-        draw: function () {
+        draw: function() {
             for (var i = this.board.elements.length - 1; i >= 0; i--) {
                 var el = this.board.elements[i];
 
                 draw(this.cxt, el);
             };
         },
-        check_collisions: function () {
+        check_collisions: function() {
             for (var i = this.board.bars.length - 1; i >= 0; i--) {
                 var bar = this.board.bars[i];
                 if (hit(bar, this.board.ball)) {
@@ -133,7 +131,7 @@
             };
 
         },
-        play: function () {
+        play: function() {
             if (this.board.playing) {
                 this.clean();
                 this.draw();
@@ -195,26 +193,21 @@ var canvas = document.getElementById('canvas');
 var board_view = new BoardView(canvas, board);
 var ball = new Ball(350, 100, 10, board);
 
-document.addEventListener("keydown", function (ev) {
+document.addEventListener("keydown", function(ev) {
     console.log(ev.keyCode);
     if (ev.keyCode == 87) {
         ev.preventDefault();
         bar.up();
-
-    }
-    else if (ev.keyCode == 83) {
+    } else if (ev.keyCode == 83) {
         ev.preventDefault();
         bar.down();
-    }
-    else if (ev.keyCode == 73) {
+    } else if (ev.keyCode == 38) {
         ev.preventDefault();
         bar_2.up();
-    }
-    else if (ev.keyCode == 75) {
+    } else if (ev.keyCode == 40) {
         ev.preventDefault();
         bar_2.down();
-    }
-    else if (ev.keyCode === 32) {
+    } else if (ev.keyCode === 32) {
         ev.preventDefault();
         board.playing = !board.playing;
 
@@ -223,7 +216,7 @@ document.addEventListener("keydown", function (ev) {
 
 board_view.draw();
 window.requestAnimationFrame(controller);
-setTimeout(function () {
+setTimeout(function() {
     ball.direction = -2;
 }, 4000);
 

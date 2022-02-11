@@ -2,17 +2,23 @@
 <html>
 
 <head>
-    <title></title>
-    <style>
-        canvas {border: solid;}
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <p>Comenzar/Pausar juego(ESPACIO)</p>
-    <p>Jugador 1: Arriba(W), abajo(S)</p>
-    <p>Jugador 2: Arriba(I), abajo(K)</p>
-    <canvas id="canvas"></canvas>
+    <div id="h1-container">
+        <h1>P i n g | P o n g</h1>
+    </div>
+    <div id="controles">
+        <p>Jugador 1: arriba(W), abajo(S)</p>
+        <p>Jugador 2: arriba( ⇑), abajo( ⇓)</p>
+        <p>Comenzar o pausar(ESPACIO)</p>
+    </div>
+    <div id="container">
+        <canvas id="canvas"></canvas>
+    </div>
+
     <script src="main.js"></script>
 </body>
 
