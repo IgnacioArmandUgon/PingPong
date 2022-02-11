@@ -31,7 +31,7 @@
         this.direction = 1; //1 = izquierda, -1 = derecha
         this.bounce_angle = 0;
         this.max_bounce_angle = Math.PI / 12;
-        this.speed = 6;
+        this.speed = 5;
 
         board.ball = this;
         this.kind = "circle";
@@ -54,7 +54,7 @@
 
 
         collision: function(bar) { //Reacciona a la colisiona con una barra que recibe como parametro  
-
+            hitSound.play();
             var relative_intersect_y = (bar.y + (bar.height / 2)) - this.y;
 
             var normalized_intersect_y = relative_intersect_y / (bar.height / 2);
@@ -74,6 +74,7 @@
 
         wall: function() {
             this.speed_y = -this.speed_y;
+            wallSound.play();
         },
 
         gol: function() {
@@ -85,8 +86,9 @@
         reset: function() {
             this.x = board.width / 2;
             this.y = board.height / 2;
-            this.speed = 6;
+            this.speed = 5;
         }
+
 
     }
 
@@ -104,10 +106,9 @@
         this.speed = 10;
     }
 
-    self.Bar.prototype = {
+    self.Bar.prototype = { //Metodos de movimiento de las barras
         down: function() {
             this.y += this.speed;
-
         },
         up: function() {
             this.y -= this.speed;
@@ -118,7 +119,7 @@
     }
 })();
 (function() {
-    self.BoardView = function(canvas, board) {
+    self.BoardView = function(canvas, board) { // Vista
         this.canvas = canvas;
         this.canvas.width = board.width;
         this.canvas.height = board.height;
@@ -130,8 +131,8 @@
         clean: function() {
             this.cxt.clearRect(0, 0, this.board.width, this.board.height);
         },
-        draw: function() {
-            for (var i = this.board.elements.length - 1; i >= 0; i--) {
+        draw: function() { //Dibuja elementos
+            for (var i = this.board.elements.length - 1; i >= 0; i--) { //En bucle para que se actualize su ubicación
                 var el = this.board.elements[i];
 
                 draw(this.cxt, el);
@@ -147,6 +148,7 @@
             };
 
         },
+
         check_wall: function() { //Metodo que comprueba que la bola tocó un borde superior o inferior
             var ball = this.board.ball;
             if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
@@ -154,16 +156,20 @@
             }
 
         },
+
         check_gol: function() { //Metodo que comprueba si la bola tocó un borde izquierdo o derecho
             var ball = this.board.ball;
             if (ball.x - ball.radius < 0) {
                 $puntos1.textContent = parseInt($puntos1.textContent) + 1;
+                leftGol.play();
                 ball.gol();
             } else if (ball.x + ball.radius > canvas.width) {
                 $puntos2.textContent = parseInt($puntos2.textContent) + 1;
+                rightGol.play();
                 ball.gol();
             }
         },
+
         play: function() {
             if (this.board.playing) {
                 this.clean();
@@ -180,7 +186,7 @@
     function hit(a, b) {
         //ver si a colisiona con b
         var hit = false;
-        //Colisiones hirizontales
+        //Colisiones horizontales
         if (b.x + b.width >= a.x && b.x < a.x + a.width) {
 
             //Colisiones verticales
@@ -227,6 +233,14 @@ var bar_2 = new Bar(770, 150, 60, 100, board);
 var canvas = document.getElementById('canvas');
 var board_view = new BoardView(canvas, board);
 var ball = new Ball(board.width / 2, board.height / 2, 10, board);
+let hitSound = new Audio();
+hitSound.src = "./sounds/pong.mp3"
+let wallSound = new Audio();
+wallSound.src = "./sounds/wall.mp3";
+let leftGol = new Audio();
+leftGol.src = "./sounds/leftGol.mp3";
+let rightGol = new Audio();
+rightGol.src = "./sounds/rightGol.mp3";
 const $puntos1 = document.getElementById("puntos1");
 const $puntos2 = document.getElementById("puntos2");
 
@@ -235,6 +249,7 @@ document.addEventListener("keydown", function(ev) {
     if (ev.keyCode == 87) {
         ev.preventDefault();
         bar.up();
+
     } else if (ev.keyCode == 83) {
         ev.preventDefault();
         bar.down();
