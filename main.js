@@ -31,7 +31,7 @@
         this.direction = 1; //1 = izquierda, -1 = derecha
         this.bounce_angle = 0;
         this.max_bounce_angle = Math.PI / 12;
-        this.speed = 3;
+        this.speed = 6;
 
         board.ball = this;
         this.kind = "circle";
@@ -66,10 +66,8 @@
 
             if (this.x > (this.board.width / 2)) {
                 this.direction = -1;
-                this.speed += 1;
             } else {
                 this.direction = 1;
-                this.speed += 1;
             }
 
         },
@@ -87,6 +85,7 @@
         reset: function() {
             this.x = board.width / 2;
             this.y = board.height / 2;
+            this.speed = 6;
         }
 
     }
