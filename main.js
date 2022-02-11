@@ -28,7 +28,7 @@
         this.speed_y = 0;
         this.speed_x = 3;
         this.board = board;
-        this.direction = 1; //1 = izquierda, -1 = derecha
+        this.direction = 1; //-1 = izquierda, 1 = derecha
         this.bounce_angle = 0;
         this.max_bounce_angle = Math.PI / 12;
         this.speed = 5;
@@ -53,7 +53,7 @@
         },
 
 
-        collision: function(bar) { //Reacciona a la colisiona con una barra que recibe como parametro  
+        collision: function(bar) { //Reacciona a la colisióna con una barra que recibe como parametro  
             hitSound.play();
             var relative_intersect_y = (bar.y + (bar.height / 2)) - this.y;
 
@@ -72,18 +72,18 @@
 
         },
 
-        wall: function() {
+        wall: function() { //Comportamiento de la bola al tocar un borde superior o inferior
             this.speed_y = -this.speed_y;
             wallSound.play();
         },
 
-        gol: function() {
+        gol: function() { //Comportamiento de la bola al tocar un borde izquierdo o derecho
             board.playing = !board.playing;
             ball.reset();
 
         },
 
-        reset: function() {
+        reset: function() { //Metodo para resetear algunos parametros de la bola
             this.x = board.width / 2;
             this.y = board.height / 2;
             this.speed = 5;
@@ -143,7 +143,6 @@
                 var bar = this.board.bars[i];
                 if (hit(bar, this.board.ball)) {
                     this.board.ball.collision(bar);
-
                 }
             };
 
@@ -233,6 +232,11 @@ var bar_2 = new Bar(770, 150, 60, 100, board);
 var canvas = document.getElementById('canvas');
 var board_view = new BoardView(canvas, board);
 var ball = new Ball(board.width / 2, board.height / 2, 10, board);
+
+const $puntos1 = document.getElementById("puntos1");
+const $puntos2 = document.getElementById("puntos2");
+
+/* S O N I D O S */
 let hitSound = new Audio();
 hitSound.src = "./sounds/pong.mp3"
 let wallSound = new Audio();
@@ -241,15 +245,12 @@ let leftGol = new Audio();
 leftGol.src = "./sounds/leftGol.mp3";
 let rightGol = new Audio();
 rightGol.src = "./sounds/rightGol.mp3";
-const $puntos1 = document.getElementById("puntos1");
-const $puntos2 = document.getElementById("puntos2");
 
-document.addEventListener("keydown", function(ev) {
+document.addEventListener("keydown", function(ev) { //Asignación de teclas usadas como controles
     console.log(ev.keyCode);
     if (ev.keyCode == 87) {
         ev.preventDefault();
         bar.up();
-
     } else if (ev.keyCode == 83) {
         ev.preventDefault();
         bar.down();
@@ -269,7 +270,7 @@ document.addEventListener("keydown", function(ev) {
 board_view.draw();
 window.requestAnimationFrame(controller);
 setTimeout(function() {
-    ball.direction = -2;
+    ball.direction = -1;
 }, 4000);
 
 function controller() {
