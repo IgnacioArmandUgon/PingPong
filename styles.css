@@ -39,6 +39,17 @@ h1:hover {
     align-items: center;
 }
 
+.puntos {
+    padding: 40px;
+    margin: 20px;
+    border: solid #603ac7be 8px;
+    font-size: 40px;
+}
+
+.puntos span {
+    width: 40px;
+}
+
 #canvas {
     border: solid;
     background-size: 100%;

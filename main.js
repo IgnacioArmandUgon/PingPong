@@ -158,8 +158,10 @@
         check_gol: function() { //Metodo que comprueba si la bola tocó un borde izquierdo o derecho
             var ball = this.board.ball;
             if (ball.x - ball.radius < 0) {
+                $puntos1.textContent = parseInt($puntos1.textContent) + 1;
                 ball.gol();
             } else if (ball.x + ball.radius > canvas.width) {
+                $puntos2.textContent = parseInt($puntos2.textContent) + 1;
                 ball.gol();
             }
         },
@@ -226,6 +228,8 @@ var bar_2 = new Bar(770, 150, 60, 100, board);
 var canvas = document.getElementById('canvas');
 var board_view = new BoardView(canvas, board);
 var ball = new Ball(board.width / 2, board.height / 2, 10, board);
+const $puntos1 = document.getElementById("puntos1");
+const $puntos2 = document.getElementById("puntos2");
 
 document.addEventListener("keydown", function(ev) {
     console.log(ev.keyCode);
