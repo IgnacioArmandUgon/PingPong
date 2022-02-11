@@ -159,11 +159,11 @@
         check_gol: function() { //Metodo que comprueba si la bola tocó un borde izquierdo o derecho
             var ball = this.board.ball;
             if (ball.x - ball.radius < 0) {
-                $puntos1.textContent = parseInt($puntos1.textContent) + 1;
+                $puntos2.textContent = parseInt($puntos2.textContent) + 1;
                 leftGol.play();
                 ball.gol();
             } else if (ball.x + ball.radius > canvas.width) {
-                $puntos2.textContent = parseInt($puntos2.textContent) + 1;
+                $puntos1.textContent = parseInt($puntos1.textContent) + 1;
                 rightGol.play();
                 ball.gol();
             }
