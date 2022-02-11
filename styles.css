@@ -41,7 +41,7 @@ h1:hover {
 
 #canvas {
     border: solid;
-    background-image: url("./img/mesa.jpg");
     background-size: 100%;
+    background-image: url("./img/imgMesa.jpg");
     ;
 }
