@@ -78,6 +78,17 @@
             this.speed_y = -this.speed_y;
         },
 
+        gol: function() {
+            board.playing = !board.playing;
+            ball.reset();
+
+        },
+
+        reset: function() {
+            this.x = board.width / 2;
+            this.y = board.height / 2;
+        }
+
     }
 
 })();
@@ -144,12 +155,21 @@
             }
 
         },
+        check_gol: function() { //Metodo que comprueba si la bola tocó un borde izquierdo o derecho
+            var ball = this.board.ball;
+            if (ball.x - ball.radius < 0) {
+                ball.gol();
+            } else if (ball.x + ball.radius > canvas.width) {
+                ball.gol();
+            }
+        },
         play: function() {
             if (this.board.playing) {
                 this.clean();
                 this.draw();
                 this.check_collisions();
                 this.check_wall();
+                this.check_gol();
                 this.board.ball.move();
             }
         }
